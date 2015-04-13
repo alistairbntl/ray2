@@ -60,7 +60,7 @@ myvector plane_t::getpoint(){
 
 /*  Return the plane's normal  */
 
-myvector plane_t::getpoint(){
+myvector plane_t::getnormal(){
   myvector plane_normal;
  
   plane_normal.x = normal.getx();
@@ -71,6 +71,48 @@ myvector plane_t::getpoint(){
 }
 
 
-int point_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
+/* detect if plane is hit */
 
+int point_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
+  myvector hit_point;
+  double hit_distance;
+  myvector normal = getnormal();
+
+  /* check if ray is parallel to plane */
+  if (normal.dot(dir) ==   0) {
+	  return 0;
+  }
+  
+  /* calculate hit distance */
+  hit_distance = ((normal.dot(point) - normal.dot(base)) / normal.dot(dir));
+  
+  /* check if hit lies behind viewpoint */
+  if (hit_distance < 0) {
+	  return 0;
+  }
+  
+  /* calculate hit point */
+  hit_point = base + (dir * hit_distance);
+  
+  /* check if hit lies behind screen */
+  if (hit_point > 0) {
+	  return 0;
+  }
+  
+  /* set hit info */
+  hit.setnormal(normal);
+  hit.setdistance(hit_distance);
+  hit.sethitpoint(hit_point);
+  
+  return 1;
+}
+
+
+/* dump info to dump file */
+
+void dump(){
+	cerr << "   point:   " << point << endl;
+	cerr << "   orient1: " << orient1 << endl;
+	cerr << "   orient2: " << orient2 << endl;
+	cerr << "   normal:  " << normal << endl;
 }
