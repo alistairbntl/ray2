@@ -12,10 +12,8 @@ using namespace std;
 sphere_t:: sphere_t(ifstream &infile) : sobj_t(infile, "sphere")
 {
   center = myvector(); // intialize point to <0,0,0>
-  double radius = 0;   // initialize point to 0
   
-  load(infile);
-  
+  load(infile);  
 }
 
 void sphere_t:: load(ifstream &infile) 
@@ -57,8 +55,7 @@ int sphere_t::hits(myvector &base, myvector &dir, hitinfo_t &hit){
 
   double a,b,c,discriminant,t_h;
   dir = dir.unitvec();
-  /* sum(const myvector &addend) */
-  /* scale(double fact) */
+
   myvector new_base = base + center*-1.0;
   myvector hit_point;
 

@@ -48,12 +48,7 @@ void plane_t:: load(ifstream &infile)
 /*  Return a point on the plane  */
 
 myvector plane_t::getpoint(){
-  myvector point_on_plane;
- 
-  point_on_plane.x = point.getx();
-  point_on_plane.y = point.gety();
-  point_on_plane.z = point.getz();
- 
+  myvector point_on_plane = (point.getx(),point.gety(),point.getz());
   return point_on_plane;
 }
 
@@ -61,19 +56,14 @@ myvector plane_t::getpoint(){
 /*  Return the plane's normal  */
 
 myvector plane_t::getnormal(){
-  myvector plane_normal;
- 
-  plane_normal.x = normal.getx();
-  plane_normal.y = normal.gety();
-  plane_normal.z = normal.getz();
-
-  return point_on_plane;
+  myvector plane_normal(normal.getx(), normal.gety(), normal.getz());
+  return plane_normal;
 }
 
 
 /* detect if plane is hit */
 
-int point_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
+int plane_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
   myvector hit_point;
   double hit_distance;
   myvector normal = getnormal();
@@ -95,7 +85,7 @@ int point_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
   hit_point = base + (dir * hit_distance);
   
   /* check if hit lies behind screen */
-  if (hit_point > 0) {
+  if (hit_point.getz() > 0) {
 	  return 0;
   }
   
@@ -110,9 +100,9 @@ int point_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
 
 /* dump info to dump file */
 
-void dump(){
-	cerr << "   point:   " << point << endl;
-	cerr << "   orient1: " << orient1 << endl;
-	cerr << "   orient2: " << orient2 << endl;
-	cerr << "   normal:  " << normal << endl;
+void plane_t::dump(){
+  std::cout << "   point:   " << point << endl;
+  std::cout << "   orient1: " << orient1 << endl;
+  std::cout << "   orient2: " << orient2 << endl;
+  std::cout << "   normal:  " << normal << endl;
 }
