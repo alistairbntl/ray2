@@ -97,7 +97,7 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	
 	/* create ray from hitpoint to center of light */
 	light_ray = hit.gethitpoint() - center;
-	
+
 	/* find light angle */
 	/* why is destructure being called? */
 	/* ARB -- commented out old line and replaced
@@ -130,5 +130,6 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 			 color.getG() * brightness * angle_cos / distance,
 			 color.getB() * brightness * angle_cos / distance);
     
+
     return result;
 }
