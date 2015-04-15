@@ -60,7 +60,11 @@ myvector rayTrace(scene_t *scene, myvector base, myvector unitDir, double total_
 
    intensity = myvector(x, y, z);
    
-   /** ADD CODE TO ADD DIFFUSE LIGHT TO INTENSITY  **/
+    // create a vector storing the diffuse light
+   myvector diffuse_light = lighting(scene,self,newHit);
+   intensity = intensity.sum(diffuse_light);
+
+   // add the diffuse_light at the hitpoint to the intesnity
 
    intensity = intensity.scale(1.0/255.0);
    intensity = intensity.scale(1.0/total_dist);

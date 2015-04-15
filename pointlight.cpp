@@ -60,12 +60,8 @@ void pointlight_t::load(ifstream &infile)
 /* return center of light */
 myvector pointlight_t::getcenter()
 {
-	myvector light_center;
-	
-	light_center.x = center.getx();
-	light_center.y = center.gety();
-	light_center.z = center.getz();
-
+  /** intialize the vector with correct points **/
+    myvector light_center(center.getx(),center.gety(),center.getz());
     return light_center;
 }
 
@@ -73,13 +69,8 @@ myvector pointlight_t::getcenter()
 /* return color of light */
 mycolor pointlight_t::getcolor()
 {
- 	myvector light_color;
-	
-	light_color.x = color.getx();
-	light_color.y = color.gety();
-	light_color.z = color.getz();
-
-    return light_color;
+  mycolor light_color = (color.getR(),color.getG(),color.getB());
+  return light_color;
 }
 
 
@@ -101,24 +92,27 @@ void pointlight_t::dump()
 
 myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hit) 
 {
-	entity_t *entity_pointer;
-	myvector result, light_ray;
+	myvector light_ray;
 	double distance, angle_cos;
 	
 	/* create ray from hitpoint to center of light */
-	light_ray = hit.hitpoint - center;
+	light_ray = hit.gethitpoint() - center;
 	
 	/* find light angle */
-	angle_cos = ~light_ray.dot(hit.normal);
+	/* why is destructure being called? */
+	/* ARB -- commented out old line and replaced
+	   with new line...don't think destructure should
+	   be called);*/
+	//	angle_cos = ~light_ray.dot(hit.getnormal()); /* old line */
+	angle_cos = light_ray.dot(hit.getnormal());
 	
     /*  check for self-occlusion */
 	if (angle_cos < 0) {
 		return myvector(0.0, 0.0, 0.0);
 	}
-	
-	/* find closest object to light */
-	entity_pointer = closest(scene, center, ~light_ray, ent, hit);
-	
+
+        entity_t *entity_pointer = closest(scene, center,light_ray, ent, hit);
+
 	/* check if occluded by other object */
 	if (entity_pointer != ent) {
 		return myvector(0.0, 0.0, 0.0);
@@ -128,9 +122,13 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	distance = light_ray.length();
 	
 	/* compute intensity */
-	result.x = color.x * brightness.x * angle_cos / distance;
-	result.y = color.y * brightness.y * angle_cos / distance;
-	result.z = color.z * brightness.z * angle_cos / distance;
+	/*** ARB I've changed brightness because
+	     its defined as a double in the
+	     pointlight class...not sure 
+	     if this is correct ***/
+	myvector result (color.getR() * brightness * angle_cos / distance,
+			 color.getG() * brightness * angle_cos / distance,
+			 color.getB() * brightness * angle_cos / distance);
     
     return result;
 }
