@@ -115,7 +115,7 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 		return myvector(0.0, 0.0, 0.0);
 	}
 
-        entity_t *entity_pointer = closest(scene, center,light_ray, ent, hit);
+        entity_t *entity_pointer = closest(scene, center, light_unit*(-1), NULL, hit);
 
 	/* check if occluded by other object */
 	if (entity_pointer != ent) {
