@@ -96,15 +96,10 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	double distance, angle_cos;
 	
 	/* create ray from hitpoint to center of light */
-<<<<<<< HEAD
-	light_ray = hit.gethitpoint() - center;
-
-=======
 	/* Tim -- old line made ray in the wrong direction. reversed it. */
 	// light_ray = hit.gethitpoint() - center;  (old line)
 	light_ray = center - hit.gethitpoint();
 	
->>>>>>> 6155618e1451aa89686d9b3653d73be27d64241f
 	/* find light angle */
 	/* why is destructure being called? */
 	/* ARB -- commented out old line and replaced
