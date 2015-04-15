@@ -92,19 +92,23 @@ void pointlight_t::dump()
 
 myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hit) 
 {
-	myvector light_ray;
+	myvector light_ray, light_unit;
 	double distance, angle_cos;
 	
 	/* create ray from hitpoint to center of light */
-	light_ray = hit.gethitpoint() - center;
+	/* Tim -- old line made ray in the wrong direction. reversed it. */
+	// light_ray = hit.gethitpoint() - center;  (old line)
+	light_ray = center - hit.gethitpoint();
 	
 	/* find light angle */
 	/* why is destructure being called? */
 	/* ARB -- commented out old line and replaced
 	   with new line...don't think destructure should
 	   be called);*/
-	//	angle_cos = ~light_ray.dot(hit.getnormal()); /* old line */
-	angle_cos = light_ray.dot(hit.getnormal());
+	/* Tim -- meant to call unitize operator. put in intermediate step to make
+	   things easier. */
+	light_unit = ~light_ray;   
+	angle_cos = light_unit.dot(hit.getnormal());
 	
     /*  check for self-occlusion */
 	if (angle_cos < 0) {
