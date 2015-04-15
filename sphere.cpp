@@ -66,7 +66,7 @@ int sphere_t::hits(myvector &base, myvector &dir, hitinfo_t &hit){
 
   discriminant = b*b - 4*a*c;
 
-  if (discriminant <= 0) return 0;
+  if (discriminant <= 0)   return 0;
 
   t_h = (-b - sqrt(discriminant))/(2*a);
   if (t_h<0) return 0;
@@ -80,7 +80,7 @@ int sphere_t::hits(myvector &base, myvector &dir, hitinfo_t &hit){
   myvector distance_temp = hit_point*-1 + base;
   hit.setdistance(distance_temp.length());
 
-  return 0;
+  return 1;
 }
 
 void sphere_t::dump(){
