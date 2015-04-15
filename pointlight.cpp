@@ -92,7 +92,7 @@ void pointlight_t::dump()
 
 myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hit) 
 {
-	myvector light_ray, light_unit;
+	myvector light_ray, light_unit, diffuse;
 	double distance, angle_cos;
 	
 	/* create ray from hitpoint to center of light */
@@ -127,14 +127,21 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	/* find distance between light and object */
 	distance = light_ray.length();
 	
+    /* Tim -- added diffuse to result. also added intermediate steps. */
+	
+	/* get diffuse from object */
+	sobj_t *obj = (sobj_t *)ent;
+	diffuse = obj->getdiffuse();
+	
 	/* compute intensity */
-	/*** ARB I've changed brightness because
-	     its defined as a double in the
-	     pointlight class...not sure 
-	     if this is correct ***/
-	myvector result (color.getR() * brightness * angle_cos / distance,
-			 color.getG() * brightness * angle_cos / distance,
-			 color.getB() * brightness * angle_cos / distance);
+	myvector intensity (color.getR() * brightness, 
+	                    color.getG() * brightness,
+						color.getB() * brightness);
+						
+	/* 	compute light's effect */		
+	myvector result (diffuse.getx() * intensity.getx() * angle_cos / distance,
+			         diffuse.gety() * intensity.gety() * angle_cos / distance,
+			         diffuse.getz() * intensity.getz() * angle_cos / distance);
     
     return result;
 }
