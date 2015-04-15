@@ -114,7 +114,9 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	if (angle_cos < 0) {
 		return myvector(0.0, 0.0, 0.0);
 	}
-
+	
+        /* Tim -- reversed unit direction for light ray, so it points towards
+		   the object */
         entity_t *entity_pointer = closest(scene, center, light_unit*(-1), NULL, hit);
 
 	/* check if occluded by other object */
