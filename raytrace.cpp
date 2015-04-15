@@ -61,8 +61,11 @@ myvector rayTrace(scene_t *scene, myvector base, myvector unitDir, double total_
    intensity = myvector(x, y, z);
    
     // create a vector storing the diffuse light
-   myvector diffuse_light = lighting(scene,self,newHit);
-   //   diffuse_light.print();
+
+	/* Tim -- changed the lighting input arguments. needed *ent to be the 
+	   object given by closest(), not self. */
+   myvector diffuse_light = lighting(scene,close,newHit);
+
    intensity = intensity.sum(diffuse_light);
 
    // add the diffuse_light at the hitpoint to the intesnity
@@ -101,7 +104,7 @@ entity_t *closest(scene_t *scene, myvector base,
    }
 
    free(objiter);
-   std::cout << close->getname();
+   //   std::cout << close->getname();
    return(close);
 } /* End closest */
 
