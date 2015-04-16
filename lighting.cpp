@@ -1,29 +1,24 @@
-/** 
-    CPSC 2100
-    lighting.cpp   
+/**
+   Alistair Bentley (abentle)
+   Timothy McCabe (tmccabe)
 
+    CPSC 2100 Section 001
+    Ray 2
+    April 15 - 2015
+
+    lighting.cpp - This file implements
+    the lighting function.
     
 **/
 
 #include "lighting.h"
 
-
 myvector lighting(scene_t *scene, entity_t *ent, hitinfo_t &hit) 
 {
 	myvector total_illumination;
-	/* moved pointer declaration to point where address is
-	   set so that constructor is not called.
-	 */
-	//	pointlight_t *light_ptr;
-	//      iterator_t *light_iter;
-	
-	/* set illumination to 0 */
-	/* this code not necessary because constructor defaults
-	   to */
-	//	total_illumination = (0.0, 0.0, 0.0);
-	
+  	iterator_t *light_iter = newIterator(scene->lightList);
+
 	/* gather light from all sources */
-	iterator_t *light_iter = newIterator(scene->lightList);
 	while(l_hasnext(light_iter)) {
 	      	/* set pointer to current light 
 		   and advance the light_iterator*/
@@ -35,9 +30,6 @@ myvector lighting(scene_t *scene, entity_t *ent, hitinfo_t &hit)
 
 		/* add to current illumination */
 		total_illumination = total_illumination + new_light;
-		
-		/* move to next light in list */
-		//		light_iter = l_next(light_iter);
 	}
 
     return total_illumination;

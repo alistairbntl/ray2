@@ -1,6 +1,13 @@
-/** 
- CpSc 2100
+/**
+   Alistair Bentley (abentle)
+   Timothy McCabe (tmccabe)
 
+    CPSC 2100 Section 001
+    Ray 2
+    April 15 - 2015
+
+    plane.cpp - this file defines the methods
+    associated with the plane class
 **/
 
 #include "plane.h"
@@ -18,6 +25,7 @@ plane_t:: plane_t(ifstream &infile) : sobj_t(infile, "plane")
    normal = orient1.cross(orient2);
 }
 
+// loads a plane_t object from a file
 void plane_t:: load(ifstream &infile)
 {
    string token;
@@ -98,11 +106,15 @@ int plane_t::hits (myvector &base, myvector &dir, hitinfo_t &hit){
 }
 
 
-/* dump info to dump file */
+/* dump info to std_err */
 
 void plane_t::dump(){
-  std::cout << "   point:   " << point << endl;
-  std::cout << "   orient1: " << orient1 << endl;
-  std::cout << "   orient2: " << orient2 << endl;
-  std::cout << "   normal:  " << normal << endl;
+  entity_t::dump();
+  cerr << "   color:       " << sobj_t::getcolor() << endl;
+  cerr << "   diffuse:     " << sobj_t::getdiffuse() << endl;
+  cerr << "   reflective:  " << sobj_t::getreflective() << endl;
+  cerr << "   point:       " << point << endl;
+  cerr << "   orient1:     " << orient1 << endl;
+  cerr << "   orient2:     " << orient2 << endl;
+  cerr << "   normal:      " << normal << endl;
 }

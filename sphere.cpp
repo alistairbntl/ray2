@@ -1,6 +1,13 @@
-/** CpSc 2100
+/**
+   Alistair Bentley (abentle)
+   Timothy McCabe (tmccabe)
 
-    The sphere_t class is derived from the sobj_t class.
+    CPSC 2100 Section 001
+    Ray 2
+    April 15 - 2015
+
+    sphere.cpp - this file defines the methods
+    associated with the sphere class
 **/
 
 #include "sphere.h"
@@ -16,6 +23,7 @@ sphere_t:: sphere_t(ifstream &infile) : sobj_t(infile, "sphere")
   load(infile);  
 }
 
+// loads a sphere_t object from a file
 void sphere_t:: load(ifstream &infile) 
 {
    string token;
@@ -40,17 +48,21 @@ void sphere_t:: load(ifstream &infile)
    }
 }
 
+// returns the center of a sphere
 myvector sphere_t::getcenter(){
   myvector my_center ( center.getx(), center.gety(), center.getz());
   return my_center;
 }
 
+// returns the radius of a sphere
 double sphere_t::getradius(){
 
   return radius;
 
 }
 
+// tests where a sphere_t object is hit by a view point
+// returns a 1 if the sphere is hit and a 0 if it isn't
 int sphere_t::hits(myvector &base, myvector &dir, hitinfo_t &hit){
 
   double a,b,c,discriminant,t_h;
@@ -83,11 +95,14 @@ int sphere_t::hits(myvector &base, myvector &dir, hitinfo_t &hit){
   return 1;
 }
 
+// dumps the information related to a sphere_t object
 void sphere_t::dump(){
   
-  std::cout << "     center:     ";
-  center.print() ;
-  std::cout << endl;
-  std::cout << "     radius:     " << radius << endl;
+  entity_t::dump();
+  cerr << "   color:       " << sobj_t::getcolor() << endl;
+  cerr << "   diffuse:     " << sobj_t::getdiffuse() << endl;
+  cerr << "   reflective:  " << sobj_t::getreflective() << endl;
+  cerr << "   center:     " << center << endl ;
+  cerr << "   radius:     " << radius << endl;
  
 }

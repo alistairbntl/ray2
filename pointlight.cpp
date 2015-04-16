@@ -1,9 +1,15 @@
 /**
-    CPSC 2100
+   Alistair Bentley (abentle)
+   Timothy McCabe (tmccabe)
+
+    CPSC 2100 Section 001
+    Ray 2
+    April 15 - 2015
+
     pointlight.cpp
 
-    pointlight.cpp contains all of the functions included in the pointlight class,
-    which is a light found at a singular point.
+    pointlight.cpp contains all of the functions included in the pointlight
+    class,  which is a light found at a singular point.
 **/
 
 
@@ -84,6 +90,7 @@ double pointlight_t::getbrightness()
 /* dumps data to output file */
 void pointlight_t::dump()
 {
+  entity_t::dump();
    cerr << "   color:      " << color << endl;
    cerr << "   brightness: " << brightness << endl;
    cerr << "   center:     " << center << endl;
@@ -96,17 +103,9 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	double distance, angle_cos;
 	
 	/* create ray from hitpoint to center of light */
-	/* Tim -- old line made ray in the wrong direction. reversed it. */
-	// light_ray = hit.gethitpoint() - center;  (old line)
 	light_ray = center - hit.gethitpoint();
 	
 	/* find light angle */
-	/* why is destructure being called? */
-	/* ARB -- commented out old line and replaced
-	   with new line...don't think destructure should
-	   be called);*/
-	/* Tim -- meant to call unitize operator. put in intermediate step to make
-	   things easier. */
 	light_unit = ~light_ray;   
 	angle_cos = light_unit.dot(hit.getnormal());
 	
@@ -115,8 +114,7 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 		return myvector(0.0, 0.0, 0.0);
 	}
 	
-        /* Tim -- reversed unit direction for light ray, so it points towards
-		   the object */
+	/* find closest entity object */
         entity_t *entity_pointer = closest(scene, center, light_unit*(-1), NULL, hit);
 
 	/* check if occluded by other object */
@@ -127,7 +125,6 @@ myvector pointlight_t::processLight(scene_t *scene, entity_t *ent, hitinfo_t &hi
 	/* find distance between light and object */
 	distance = light_ray.length();
 	
-    /* Tim -- added diffuse to result. also added intermediate steps. */
 	
 	/* get diffuse from object */
 	sobj_t *obj = (sobj_t *)ent;

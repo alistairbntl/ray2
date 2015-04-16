@@ -1,3 +1,17 @@
+/**
+   Alistair Bentley (abentle)
+   Timothy McCabe (tmccabe)
+
+    CPSC 2100 Section 001
+    Ray 2
+    April 15 - 2015
+
+    ray.cpp - this file implements the genray 
+    and raytrace functions
+    
+**/
+
+
 #include "ray.h"
 
 /** genRay **/
@@ -60,16 +74,12 @@ myvector rayTrace(scene_t *scene, myvector base, myvector unitDir, double total_
 
    intensity = myvector(x, y, z);
    
-    // create a vector storing the diffuse light
-
-	/* Tim -- changed the lighting input arguments. needed *ent to be the 
-	   object given by closest(), not self. */
+   // create a vector storing the diffuse light
+   // and add to the intensity
    myvector diffuse_light = lighting(scene,close,newHit);
-
    intensity = intensity.sum(diffuse_light);
 
    // add the diffuse_light at the hitpoint to the intesnity
-
    intensity = intensity.scale(1.0/255.0);
    intensity = intensity.scale(1.0/total_dist);
    return intensity;
@@ -104,7 +114,6 @@ entity_t *closest(scene_t *scene, myvector base,
    }
 
    free(objiter);
-   //   std::cout << close->getname();
    return(close);
 } /* End closest */
 
